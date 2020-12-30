@@ -3,8 +3,6 @@ defmodule OfferBroadway do
 
   alias Broadway.Message
 
-  import Integer, only: [is_odd: 1, is_even: 1]
-
   def start_link(_opts) do
     Broadway.start_link(__MODULE__,
       name: __MODULE__,
@@ -24,31 +22,44 @@ defmodule OfferBroadway do
         ]
       ],
       batchers: [
-        default: [
-          offer_odd: [concurrency: 2, batch_size: 10],
-          offer_even: [concurrency: 1, batch_size: 10]
-        ]
+        big_discount: [concurrency: 2, batch_size: 10],
+        discount: [concurrency: 1, batch_size: 10]
       ]
     )
   end
 
-  def handle_message(_, %Message{data: data} = message, _) when is_odd(data) do
-    message
-    |> IO.inspect()
+  def handle_message(_, %Message{data: data} = message, _) do
+    payload =
+      data
+      |> Jason.decode!()
+
+    if payload["discount"] >= 50 do
+      message
+      |> Message.put_batcher(:big_discount)
+    else
+      message
+      |> Message.put_batcher(:discount)
+    end
 
     # |> Message.update_data(&process_data/1)
     # |> Message.put_batcher(:sqs)
-  end
-
-  def handle_message(_, %Message{data: data} = message, _) when is_even(data) do
-    message
-    |> IO.inspect()
 
     # |> Message.update_data(&process_data/1)
     # |> Message.put_batcher(:s3)
   end
 
-  defp process_data(data) do
-    # Do some calculations, generate a JSON representation, etc.
+  @impl true
+  def handle_batch(:big_discount, messages, batch_info, context) do
+    IO.inspect(messages)
+    IO.inspect(batch_info)
+    IO.inspect(context)
+    messages
+  end
+
+  def handle_batch(:discount, messages, batch_info, context) do
+    IO.inspect(messages)
+    IO.inspect(batch_info)
+    IO.inspect(context)
+    messages
   end
 end
