@@ -11,6 +11,8 @@ defmodule OffersConsumer.Application do
       OffersConsumer.Repo,
       # Start the Telemetry supervisor
       OffersConsumerWeb.Telemetry,
+      {OfferBroadway, []},
+
       # Start the PubSub system
       {Phoenix.PubSub, name: OffersConsumer.PubSub},
       # Start the Endpoint (http/https)
