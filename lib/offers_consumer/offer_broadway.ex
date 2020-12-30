@@ -3,6 +3,8 @@ defmodule OfferBroadway do
 
   alias Broadway.Message
 
+  import Integer, only: [is_odd: 1, is_even: 1]
+
   def start_link(_opts) do
     Broadway.start_link(__MODULE__,
       name: __MODULE__,
