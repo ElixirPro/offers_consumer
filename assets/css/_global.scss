@@ -1,32 +1,80 @@
-html, body {
+html,
+body {
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
-  background-color: purple;
+  background-color: #eee;
 }
 
 .container {
   display: grid;
   grid-template-columns: 1fr 4fr 1fr;
-  grid-template-rows: 10vh 70vh 20vh;
-  grid-template-areas: "h      h      h"
-                       ".      m       ."
-                       "f      f      f";
-  header{
-    grid-area: h;
-    background-color: white;
+  grid-template-rows: 10vh 89vh 1vh;
+  grid-template-areas: "header      header      header"
+    // ".      main       ."
+    "main      main       main"
+    "footer      footer      footer";
+
+  header {
+    grid-area: header;
+    background-color: #17365e;
     grid-column: 1/4;
   }
+
   main {
-    grid-area: m;
-    background-color: green;
+    grid-area: main;
+    background-color: #eee;
     grid-column: 2/3;
   }
+
   footer {
-    background-color: blue;
-    grid-area: f;
+    background-color: #ff8083;
+    grid-area: footer;
     grid-column: 1/4;
   }
 }
 
+ul#products {
+  width: 100%;
+  li {
+    list-style: none;
+    background-color: #fff;
+    margin-bottom: 10px;
+    padding: 15px;
+    transition: transform 0.2s;
+    border-radius: 5px;
+    width: 100%;
+    display: block;
 
+
+    &:hover {
+      transform: translateX(10px);
+    }
+
+    h3 {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .details {
+      display: flex;
+      justify-content: space-between;
+
+      span {
+        padding: 5px;
+        border-radius: 8px;
+        background-color: #fba331;
+        transition: background-color 0.5s;
+
+        &:hover {
+          background-color: #17365e;
+        }
+
+        a {
+          text-decoration: none;
+          color: white;
+        }
+      }
+    }
+  }
+}
