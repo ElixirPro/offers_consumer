@@ -1,0 +1,32 @@
+html, body {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  background-color: purple;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr;
+  grid-template-rows: 10vh 70vh 20vh;
+  grid-template-areas: "h      h      h"
+                       ".      m       ."
+                       "f      f      f";
+  header{
+    grid-area: h;
+    background-color: white;
+    grid-column: 1/4;
+  }
+  main {
+    grid-area: m;
+    background-color: green;
+    grid-column: 2/3;
+  }
+  footer {
+    background-color: blue;
+    grid-area: f;
+    grid-column: 1/4;
+  }
+}
+
+
