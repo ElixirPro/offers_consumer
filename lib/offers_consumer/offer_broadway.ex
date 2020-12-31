@@ -48,18 +48,17 @@ defmodule OfferBroadway do
     # |> Message.put_batcher(:s3)
   end
 
-  @impl true
-  def handle_batch(:big_discount, messages, batch_info, context) do
-    IO.inspect(messages)
-    IO.inspect(batch_info)
-    IO.inspect(context)
+  def handle_batch(:big_discount, messages, _batch_info, _context) do
+    messages
+    |> Enum.map(& &1.data |> Jason.decode!())
+    |> IO.inspect()
     messages
   end
 
-  def handle_batch(:discount, messages, batch_info, context) do
-    IO.inspect(messages)
-    IO.inspect(batch_info)
-    IO.inspect(context)
+  def handle_batch(:discount, messages, _batch_info, _context) do
+    messages
+    |> Enum.map(& &1.data |> Jason.decode!())
+    |> IO.inspect()
     messages
   end
 end
