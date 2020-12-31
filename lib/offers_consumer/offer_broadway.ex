@@ -2,6 +2,7 @@ defmodule OfferBroadway do
   use Broadway
 
   alias Broadway.Message
+  alias OffersConsumer.Products
 
   def start_link(_opts) do
     Broadway.start_link(__MODULE__,
@@ -50,15 +51,15 @@ defmodule OfferBroadway do
 
   def handle_batch(:big_discount, messages, _batch_info, _context) do
     messages
-    |> Enum.map(& &1.data |> Jason.decode!())
-    |> IO.inspect()
+    |> Enum.map(&(&1.data |> Jason.decode!() |> Products.create_product()))
+
     messages
   end
 
   def handle_batch(:discount, messages, _batch_info, _context) do
     messages
-    |> Enum.map(& &1.data |> Jason.decode!())
-    |> IO.inspect()
+    |> Enum.map(&(&1.data |> Jason.decode!() |> Products.create_product()))
+
     messages
   end
 end

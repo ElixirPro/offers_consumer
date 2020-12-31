@@ -53,6 +53,16 @@ defmodule OffersConsumer.Products do
     %Product{}
     |> Product.changeset(attrs)
     |> Repo.insert()
+    |> broadcast(:product_created)
+  end
+
+  def subscribe, do: Phoenix.PubSub.subscribe(OffersConsumer.PubSub, "offers_list")
+
+  defp broadcast({:error, _c} = error, _event), do: error
+
+  defp broadcast({:ok, product}, event) do
+    Phoenix.PubSub.broadcast(OffersConsumer.PubSub, "offers_list", {event, product})
+    {:ok, product}
   end
 
   @doc """

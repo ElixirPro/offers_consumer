@@ -6,12 +6,18 @@ defmodule OffersConsumerWeb.ProductLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
+    if connected?(socket), do: OffersConsumer.Products.subscribe()
     {:ok, assign(socket, :products, list_products())}
   end
 
   @impl true
   def handle_params(params, _url, socket) do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  end
+
+  @impl true
+  def handle_info({:product_created, product}, socket) do
+    {:noreply, update(socket, :products, &[product | &1])}
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
